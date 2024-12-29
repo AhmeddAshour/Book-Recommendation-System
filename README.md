@@ -1,92 +1,46 @@
 # Book Recommendation System
 
-## Introduction
+This report details the development and evaluation of a book recommendation system.  The system utilizes collaborative filtering, content-based filtering, a hybrid approach, and a knowledge-based approach to provide diverse recommendations.  The system is built upon three datasets: Books.csv, Ratings.csv, and Users.csv.  Due to memory constraints with the original data size, the datasets were preprocessed to reduce the dataset size, drop columns, filter users and books to work effectively with the available system resources.
 
-The Book Recommendation System suggests books to users based on their preferences and past interactions. This project implements collaborative filtering, content-based filtering, and a hybrid approach using a dataset containing information about books, users, and ratings.
 
-## Objectives
+**1. Data Preprocessing:**
 
-- Implement collaborative filtering to recommend books based on user and item similarities.
-- Use content-based filtering with book metadata.
-- Develop a hybrid recommendation model combining collaborative and content-based approaches.
-- Evaluate model performance using metrics like precision, recall, and F1-score.
-- Visualize data and model performance.
+*   The (Year-Of-Publication) column was removed due to inconsistent data types.
+*   A 10% random sample of books was taken, and the ratings data was filtered to include only interactions with the selected books.
+*   The top 5000 most active users were chosen for the collaborative filtering model to reduce memory consumption and model training time.
+*   A combined features column consisting of book title and author was created for content-based filtering.
 
-## Dataset
+**2. Recommendation Algorithms:**
 
-### 1. Books Dataset
-- **Fields**:
-  - ISBN: Unique identifier for each book.
-  - Book-Title, Book-Author, Year-Of-Publication, Publisher.
-  - Image URLs for book covers: Image-URL-S, Image-URL-M, Image-URL-L.
+*   **Collaborative Filtering:** A k-Nearest Neighbors (KNN) model with cosine similarity was used to identify users with similar rating patterns and recommend books they liked.
+*   **Content-Based Filtering:**  TF-IDF vectorization was applied to book titles and authors to generate a book feature matrix. Cosine similarity was then used to find books with similar features.
+*   **Hybrid Approach:**  Combines collaborative and content-based recommendations to leverage the strengths of both methods.
+*   **Knowledge-Based Filtering:**  Allows users to filter books based on author or publisher.
 
-### 2. Ratings Dataset
-- **Fields**:
-  - User-ID: Unique identifier for users.
-  - ISBN: Book identifier.
-  - Book-Rating: Rating on a 0-10 scale.
+**3. System Output and Evaluation:**
 
-### 3. Users Dataset
-- **Fields**:
-  - User-ID: Unique identifier for users.
-  - Location: User location.
-  - Age: User age.
+The system generates recommendations using each of the implemented methods. Recommendations are displayed as tables including book details and scores.  Example recommendations are provided for a random book and an active user from the data.
 
-## Methodology
+**4. Visualizations:**
 
-### 1. Data Preprocessing
-- **Filtering**:
-  - Retained users with at least 10 ratings.
-  - Retained books with at least 5 ratings.
-  
-- **Handling Missing Data**:
-  - Filled missing metadata fields with empty strings.
+Several visualizations provide insights into the data:
 
-- **Merging Datasets**:
-  - Combined ratings and books datasets for enriched information.
+*   **Book Ratings Distribution:** A histogram shows the frequency of different book ratings, indicating the popularity distribution of books in the dataset.
 
-### 2. Recommendation Techniques
+*   **Top 10 Authors and Publishers:** Bar plots illustrate the authors and publishers with the highest number of books in the dataset, showcasing dominance within the book collection.
 
-#### Collaborative Filtering
-- Created a user-item interaction matrix using book ratings.
-- Computed user similarity with cosine similarity.
+*   **Average Rating per Book:** Distribution of average book ratings across the dataset provides insight into the overall quality perception of the books present in the database.
 
-#### Content-Based Filtering
-- Combined metadata fields (Book-Title, Book-Author, Publisher) into a single feature.
-- Applied TF-IDF vectorization to extract text features.
-- Computed book similarity using cosine similarity.
 
-#### Hybrid Approach
-- Weighted combination of collaborative and content-based recommendations.
-- Provided personalized recommendations leveraging both models.
+**5. Challenges and Future Work:**
 
-### 3. Evaluation
-- Split the ratings dataset into training (80%) and testing (20%).
-- Evaluated the system using metrics like precision, recall, and F1-score (placeholders for now).
+* **Scalability:** The system currently uses a reduced dataset for memory efficiency. Improvements are needed to handle the full dataset or use distributed computing approaches.
 
-### 4. Visualization
-- **Heatmaps**: User similarity for a subset of users.
-- **Histograms**: Distribution of book ratings.
+* **Cold Start Problem:** The collaborative filtering approach has issues with new users and items.  Hybrid methods might improve the model’s performance but additional techniques such as incorporating metadata or using implicit feedback data can be considered.
 
-## Features
+* **Performance Metrics:** More comprehensive evaluation metrics (precision, recall, NDCG) should be used to evaluate the performance of each algorithm.
 
-- **Memory Optimization**: Used sparse matrices for efficient storage and computation. Filtered data to focus on active users and popular books.
-- **Scalability**: Designed to handle large datasets efficiently.
-- **Hybrid Model**: Combines collaborative and content-based filtering for better accuracy.
 
-## Results
+**6. Conclusion:**
 
-- The system provides personalized book recommendations based on user preferences and metadata.
-- Visualizations offer insights into user behavior and rating patterns.
-- Placeholder evaluation metrics demonstrate a framework for assessing performance.
-
-## Future Enhancements
-
-- **Improved Evaluation**: Use actual test data to compute metrics like precision, recall, and F1-score.
-- **Incorporate Implicit Feedback**: Analyze user behavior beyond explicit ratings (for example: clicks, views).
-- **Advanced Hybrid Models**: Experiment with deep learning approaches.
-- **Interactive Features**: Develop a user-friendly interface for accessing recommendations.
-
-## Conclusion
-
-This book recommendation system provides a scalable and efficient framework for suggesting books to users. By integrating collaborative filtering, content-based filtering, and a hybrid approach, the system delivers accurate and personalized recommendations. Future enhancements can improve its applicability and effectiveness in real-world scenarios.
+The developed book recommendation system effectively leverages different filtering methods. The visualizations offer valuable insights into the book dataset.  Future enhancements will focus on scalability, addressing cold-start issues, and more rigorous evaluations to create a more robust recommendation system.
